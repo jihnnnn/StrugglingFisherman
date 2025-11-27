@@ -5,24 +5,27 @@ class Fish{
 	public:
 		Fish();
 		
-		int level;
-		float posX;
-		float posY;
+		float get_pos_x() const;
+		float get_pos_y() const;
+		int get_level() const;
+		float get_required_to_pull() const;
 		
-		float requiredToPull;
+		void set_pos_x(float x);
+		void set_pos_y(float y);
 		
-		bool getIsHooked();
-		
-		void runDisplay();
-	
+		void update_movement();
+		bool is_off_screen();
+		void run_display();
+
 	private:
-		void drawFish();
-		void levelDisplay();
-		void pullValueDebug();
-		void updateMovement();
+		// Variables
+		float pos_x;
+		float pos_y;
+		int level;
+		float required_to_pull;
 		
-		
-		bool isOffScreen();
-		int randLevelGen();
-		
+		int rand_level_gen();
+		void draw_fish();
+		void level_display();
+		int pull_value();
 };

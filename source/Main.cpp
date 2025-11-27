@@ -7,9 +7,12 @@
 
 using namespace std;
 
-void handleDisplay();
-void handleKeyboard(unsigned char key, int posX, int posY);
-void handleMouse(int button, int state, int x, int y);
+void handle_display();
+void handle_keyboard(unsigned char key, int posX, int posY);
+void handle_mouse(int button, int state, int x, int y);
+void global_game_event(int value);
+
+Game game;
 
 int main(int argc, char** argv){
 	
@@ -19,9 +22,9 @@ int main(int argc, char** argv){
 	glutCreateWindow("Struggling Fisherman | AN31");
 	
 	// Handles Inputs, and Window Display
-	glutDisplayFunc(handleDisplay);
-	glutKeyboardFunc(handleKeyboard);
-	glutMouseFunc(handleMouse);
+	glutDisplayFunc(handle_display);
+	glutKeyboardFunc(handle_keyboard);
+	glutMouseFunc(handle_mouse);
 	
 	// For Vertex Arrays
 	glEnable(GL_BLEND);
@@ -31,7 +34,7 @@ int main(int argc, char** argv){
 	glutIgnoreKeyRepeat(1);
 	
 	// Handles Global Timer from the function GlobalGameEvent
-	// glutTimerFunc(0, GlobalGameEvent, 0);
+	glutTimerFunc(0, global_game_event, 0);
 	
 	glutMainLoop();
 	
@@ -39,28 +42,34 @@ int main(int argc, char** argv){
 
 }
 
-void handleDisplay(){
+void global_game_event(int value){
+	game.update();
+	glutPostRedisplay();
+	glutTimerFunc(16, global_game_event, 0);
+}
+
+
+void handle_display(){
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	// game.render();
+	game.render();
 	glFlush();
 }
 
-void handleKeyboard(unsigned char key, int posX, int posY){
+void handle_keyboard(unsigned char key, int posX, int posY){
 	
 	cout << "PRESSED KEY: " << (int)key << endl;
 	
 	switch(key){
-		/* case 32: // Keyboard Space
-			
-			if(!game.isFishCaught){
-				game.checkIfCaught();
-				game.numberOfReels = 0;
+		case 32: // Keyboard Space
+			if(!game.get_is_fish_caught()){
+				game.check_if_caught();
+				game.reset_reels();
 			}
 			else {
-				game.reelFish();
+				game.reeling();
 			}
-			break; */
+			break;
 		case 27:
 			cout << "TThank you for playing!" << endl;
 			exit(0);
@@ -68,16 +77,18 @@ void handleKeyboard(unsigned char key, int posX, int posY){
 	}
 }
 
-void handleMouse(int button, int state, int x, int y){
+void handle_mouse(int button, int state, int x, int y){
 	if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-		/* if(!game.isFishCaught){
-			game.checkIfCaught();
-			game.numberOfReels = 0;
+		if(!game.get_is_fish_caught()){
+			game.check_if_caught();
+			game.reset_reels();
 		}
 		else {
-			game.reelFish();
-		} */
-	}
+			game.reeling();
+		}
+		
+		//if
+	}		
 }
 
 
