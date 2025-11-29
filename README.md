@@ -1,4 +1,4 @@
-How to Run?
+# How to Run?
 You can just run the StrugglingFisherman.exe to run the game.
 
 If you decide to compile it and run, make sure you have linked up the directories of freeglut correctly first!
